@@ -3,31 +3,30 @@ const router = express.Router();
 const db = require('../db');
 const { authenticate } = require('../middleware/auth');
 // GET /api/profile - Fetches main profile and links
-router.get('/profile', async (req, res) => {
+router.get('/projects', async (req, res) => {
   try {
-    const query = `
-      SELECT 
-        p.name, 
-        p.email, 
-        l.github, 
-        l.linkedin, 
-        l.portfolio 
-      FROM profile p 
-      JOIN links l ON p.id = l.profile_id 
-      LIMIT 1;
+    const { skill } = req.query;
+    let query = `
+      SELECT p.id, p.title, p.description, p.repo_link, p.live_link,
+      STRING_AGG(s.name, ', ') AS skills
+      FROM projects p
+      LEFT JOIN project_skills ps ON p.id = ps.project_id
+      LEFT JOIN skills s ON ps.skill_id = s.id
     `;
-    
-    const [rows] = await db.query(query);
-    
-    if (rows.length === 0) {
-      return res.status(404).json({ error: 'Profile not found.' });
+    const queryParams = [];
+    if (skill) {
+      query += ` WHERE p.id IN (SELECT ps.project_id FROM project_skills ps JOIN skills s ON ps.skill_id = s.id WHERE s.name = $1)`;
+      queryParams.push(skill);
     }
-    
-    // Send the first (and only) row of data
-    res.json(rows[0]);
-
+    query += ' GROUP BY p.id ORDER BY p.id DESC';
+    const { rows: projects } = await db.query(query, queryParams);
+    const projectsWithSkillsArray = projects.map(project => ({
+      ...project,
+      skills: project.skills ? project.skills.split(', ') : []
+    }));
+    res.json(projectsWithSkillsArray);
   } catch (error) {
-    console.error('Error fetching profile data:', error);
+    console.error('Error fetching projects:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
@@ -128,36 +127,24 @@ router.get('/projects', async (req, res) => {
 // GET /api/search?q=... - Searches projects by title or description
 router.get('/search', async (req, res) => {
   try {
-    const { q } = req.query; // Get the search query from the URL
-
-    if (!q) {
-      return res.status(400).json({ error: 'A search query "q" is required.' });
-    }
-
+    const { q } = req.query;
+    if (!q) return res.status(400).json({ error: 'A search query "q" is required.' });
     const searchTerm = `%${q}%`;
-
-    // This is the same powerful query from /projects, but with an added WHERE clause
     const query = `
-      SELECT 
-        p.id, p.title, p.description, p.repo_link, p.live_link,
-        GROUP_CONCAT(s.name SEPARATOR ', ') AS skills
+      SELECT p.id, p.title, p.description, p.repo_link, p.live_link,
+      STRING_AGG(s.name, ', ') AS skills
       FROM projects p
       LEFT JOIN project_skills ps ON p.id = ps.project_id
       LEFT JOIN skills s ON ps.skill_id = s.id
-      WHERE p.title LIKE ? OR p.description LIKE ?  -- The search condition
-      GROUP BY p.id
-      ORDER BY p.id DESC;
+      WHERE p.title ILIKE $1 OR p.description ILIKE $2
+      GROUP BY p.id ORDER BY p.id DESC;
     `;
-
-    const [projects] = await db.query(query, [searchTerm, searchTerm]);
-
+    const { rows: projects } = await db.query(query, [searchTerm, searchTerm]);
     const projectsWithSkillsArray = projects.map(project => ({
       ...project,
       skills: project.skills ? project.skills.split(', ') : []
     }));
-
     res.json(projectsWithSkillsArray);
-
   } catch (error) {
     console.error('Error during search:', error);
     res.status(500).json({ error: 'Internal Server Error' });
