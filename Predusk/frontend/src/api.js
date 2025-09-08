@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://predusk-assessment-s0na.onrender.com' // Our backend API URL
+  baseURL: 'https://predusk-assessment-s0na.onrender.com/api' // Our backend API URL
 });
 
 export default api;
