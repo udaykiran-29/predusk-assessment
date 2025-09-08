@@ -5,12 +5,12 @@ TRUNCATE TABLE profile, links, skills, projects, project_skills RESTART IDENTITY
 
 -- 1. Insert your main profile information
 INSERT INTO profile (name, email) 
-VALUES ('Your Name', 'your.email@example.com');
+VALUES ('Uday Kiran', 'udayguttula19221@gmail.com');
 
 -- 2. Insert your links (GitHub, LinkedIn, Portfolio)
 INSERT INTO links (profile_id, github, linkedin, portfolio) 
 VALUES (
-    (SELECT id FROM profile WHERE email = 'your.email@example.com'),
+    (SELECT id FROM profile WHERE email = 'udayguttula19221@gmail.com'),
     'https://github.com/udaykiran-29',
     'https://www.linkedin.com/in/uday-kiran-a01794243/',
     'https://your-portfolio-url.com'
