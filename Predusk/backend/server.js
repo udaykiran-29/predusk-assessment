@@ -1,8 +1,8 @@
-// In backend/server.js
+// This is the complete, correct code for backend/server.js
 const express = require('express');
 const cors = require('cors');
 const db = require('./db');
-const apiRoutes = require('./routes/api');
+const apiRoutes = require('./routes/api'); // Make sure this line exists
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -13,13 +13,14 @@ app.use(express.json());
 
 // --- ROUTES ---
 
+// Make sure this line exists and has the correct '/api' path
 app.use('/api', apiRoutes); 
 
-// Health Check Endpoint
+// Make sure this entire health check route exists
 app.get('/health', async (req, res) => {
   try {
-    const [result] = await db.query('SELECT 1 AS solution');
-    if (result[0].solution === 1) {
+    const { rows } = await db.query('SELECT 1 AS solution');
+    if (rows[0].solution === 1) {
       res.status(200).json({ 
         status: 'ok', 
         message: 'Server is healthy and connected to the database.' 
