@@ -4,8 +4,8 @@ This project is a personal portfolio backend assessment that stores my profile i
 
 ## Live URLs
 
-* **Frontend (Vercel):** `https://your-frontend-url.vercel.app`
-* **Backend (Render):** `https://your-backend-url.onrender.com`
+* **Frontend (Vercel):** `https://predusk-assessment-udaykiran-29s-projects.vercel.app/`
+* **Backend (Render):** `https://predusk-assessment-s0na.onrender.com`
 
 ---
 
@@ -13,9 +13,9 @@ This project is a personal portfolio backend assessment that stores my profile i
 
 * **Frontend:** React (built with Create React App)
 * **Backend:** Node.js with Express.js
-* **Database:** MySQL (hosted on PlanetScale)
+* **Database:** PostgreSQL (hosted on Neon)
 
-The React frontend communicates with the Node.js backend via REST API calls. The backend then queries the MySQL database to retrieve or modify data.
+The React frontend communicates with the Node.js backend via REST API calls. The backend then queries the PostgreSQL database to retrieve or modify data.
 
 ---
 
@@ -32,27 +32,25 @@ The database consists of five main tables:
 
 ## Setup & Run Locally
 
-**Prerequisites:** Node.js, npm, and a local MySQL server.
+**Prerequisites:** Node.js, npm, and a local PostgreSQL server.
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/your-username/your-repo-name.git](https://github.com/your-username/your-repo-name.git)
-    cd your-repo-name
+    git clone [https://github.com/udaykiran-29/predusk-assessment.git](https://github.com/udaykiran-29/predusk-assessment.git)
+    cd predusk-assessment
     ```
 2.  **Setup Backend:**
     ```bash
     cd backend
     npm install
     ```
-    * Create a `.env` file and add your local database credentials:
+    * Create a `.env` file and add your local PostgreSQL connection string and API key:
         ```env
-        DB_HOST=localhost
-        DB_USER=your_mysql_username
-        DB_PASSWORD=your_mysql_password
-        DB_NAME=my_portfolio_db
+        # Example for a local PostgreSQL setup
+        DATABASE_URL="postgresql://YOUR_USERNAME:YOUR_PASSWORD@localhost:5432/YOUR_DATABASE_NAME"
         API_KEY="your-secret-api-key"
         ```
-    * Run the `schema.sql` and `seed.sql` files in your MySQL database.
+    * Run the `schema.sql` and `seed.sql` files in your PostgreSQL database. (Note: The provided `schema.sql` is compatible with PostgreSQL).
     * Start the backend server:
         ```bash
         npm start
@@ -87,17 +85,17 @@ Here are the available API endpoints:
 **Sample `curl` Commands:**
 ```bash
 # Get all projects
-curl [https://your-backend-url.onrender.com/api/projects](https://your-backend-url.onrender.com/api/projects)
+curl [https://predusk-assessment-s0na.onrender.com/api/projects](https://predusk-assessment-s0na.onrender.com/api/projects)
 
 # Get projects filtered by the skill "Node.js"
-curl "[https://your-backend-url.onrender.com/api/projects?skill=Node.js](https://your-backend-url.onrender.com/api/projects?skill=Node.js)"
+curl "[https://predusk-assessment-s0na.onrender.com/api/projects?skill=Node.js](https://predusk-assessment-s0na.onrender.com/api/projects?skill=Node.js)"
 
 # Update profile (requires API key)
 curl -X PUT \
   -H "Content-Type: application/json" \
   -H "x-api-key: your-secret-api-key" \
   -d '{"name": "New Name", "email": "new@email.com", "github":"...", "linkedin":"...", "portfolio":"..."}' \
-  [https://your-backend-url.onrender.com/api/profile](https://your-backend-url.onrender.com/api/profile)
+  [https://predusk-assessment-s0na.onrender.com/api/profile](https://predusk-assessment-s0na.onrender.com/api/profile)
 ```
 
 ---
@@ -111,4 +109,4 @@ curl -X PUT \
 
 ## Resume
 
-You can find my resume here: `[Link to your resume PDF or LinkedIn]`
+You can find my resume here: `https://drive.google.com/file/d/1CIIessFl1Glmh5oC8ZPwSlIm9gCS1dyE/view?usp=drive_link`
