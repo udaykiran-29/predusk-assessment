@@ -1,8 +1,7 @@
-// This is the complete, correct code for backend/server.js
 const express = require('express');
 const cors = require('cors');
 const db = require('./db');
-const apiRoutes = require('./routes/api'); // Make sure this line exists
+const apiRoutes = require('./routes/api'); 
 
 const app = express();
 const PORT = process.env.PORT || 3001;
