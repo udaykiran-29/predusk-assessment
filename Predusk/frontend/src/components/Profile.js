@@ -1,7 +1,4 @@
-// In src/components/Profile.js
-
 function Profile({ profile }) {
-  // The component receives 'profile' data from App.js
   return (
     <header>
       <h1>{profile.name}</h1>
