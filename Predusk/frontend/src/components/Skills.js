@@ -1,4 +1,4 @@
-// In src/components/Skills.js
+
 import { useState, useEffect } from 'react';
 import api from '../api';
 
