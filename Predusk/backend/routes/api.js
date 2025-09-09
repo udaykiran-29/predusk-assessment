@@ -21,7 +21,7 @@ router.get('/profile', async (req, res) => {
   }
 });
 
-// PUT /api/profile - Updates profile information (FIX: CORRECTED FOR POSTGRES)
+// PUT /api/profile - Updates profile information 
 router.put('/profile', authenticate, async (req, res) => {
   try {
     const { name, email, github, linkedin, portfolio } = req.body;
@@ -47,7 +47,7 @@ router.put('/profile', authenticate, async (req, res) => {
   }
 });
 
-// GET /api/skills - Fetches all skills (FIX: CORRECTED FOR POSTGRES)
+// GET /api/skills - Fetches all skills 
 router.get('/skills', async (req, res) => {
   try {
     const { rows } = await db.query('SELECT name FROM skills ORDER BY name');
@@ -58,7 +58,7 @@ router.get('/skills', async (req, res) => {
   }
 });
 
-// GET /api/projects - Fetches all projects, can be filtered by skill (FIX: REMOVED DUPLICATE AND CORRECTED FOR POSTGRES)
+// GET /api/projects - Fetches all projects, can be filtered by skill
 router.get('/projects', async (req, res) => {
   try {
     const { skill } = req.query;
@@ -88,7 +88,7 @@ router.get('/projects', async (req, res) => {
   }
 });
 
-// GET /api/search?q=... - Searches projects by title or description (FIX: CORRECTED FOR POSTGRES)
+// GET /api/search?q=... - Searches projects by title or description 
 router.get('/search', async (req, res) => {
   try {
     const { q } = req.query;
@@ -115,7 +115,7 @@ router.get('/search', async (req, res) => {
   }
 });
 
-// GET /api/skills/top - Fetches the most used skills (FIX: CORRECTED FOR POSTGRES)
+// GET /api/skills/top - Fetches the most used skills
 router.get('/skills/top', async (req, res) => {
   try {
     const query = `
