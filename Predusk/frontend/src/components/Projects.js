@@ -1,4 +1,3 @@
-// In src/components/Projects.js
 import { useState, useEffect } from 'react';
 import api from '../api';
 
@@ -28,7 +27,6 @@ function Projects({ selectedSkill }) { // 1. Accept selectedSkill as a prop
       
       <div className="projects-container">
         {projects.map(project => (
-          // ... (The rest of the component is the same)
           <div key={project.id} className="project-card">
             <h3>{project.title}</h3>
             <p>{project.description}</p>
